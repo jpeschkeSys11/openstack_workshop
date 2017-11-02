@@ -15,7 +15,7 @@ Content:
 
 05_separate_database - volumes
 
-05a side track: duplicity & object storage
+05a_object_storage
 
 06_cloud_init / publish - author
 
