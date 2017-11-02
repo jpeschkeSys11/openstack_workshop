@@ -29,7 +29,7 @@ https://raw.githubusercontent.com/syseleven/heattemplates-examples/master/gettin
 
 Leave any other field untouched and press "Next".
 
-Fill in the desired name for your stack (we will use the name "workstation" during this example). Also fill in the fiel "key_name" with the name you choose earlier for your public SSH key. Then klick "Launch" and you are done.
+Fill in the desired name for your stack (we will use the name "workstation" during this example). Also fill in the field "key_name" with the name you choose earlier for your public SSH key. Then klick "Launch" and you are done.
 
 You can now navigate to "Compute" --> "Overview" and see, that a newly created VM has spawned. Klick on the name of the machine and copy the public ip address to be able to login there via SSH
 
