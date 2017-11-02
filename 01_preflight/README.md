@@ -10,10 +10,10 @@ To access the OpenStack API you need two credentials:
 ### Authentication 
 
 We assume that you got username/ password from your OpenStack provider.
-With these informations you are able to get a prepared control file from 
-the OpenStack Dashboard (Horizon).
+With these informations you are able to get all informations you need to authenticate against the OpenStack API.
+Navigate to "Compute" --> "Access and Security" --> "API Credentials" and press "View Credentials". From that view 
+copy the given "Project ID".
 
-A sample openrc file is stored in this repository, you can replace that file with the one you downloaded from Horizon vi "Compute" --> "Access and Security" --> "API Access" --> "Download OpenStack RC File v3".
 
 ### Working environment
 
@@ -35,7 +35,7 @@ You can now navigate to "Compute" --> "Overview" and see, that a newly created V
 
 ``` ssh syseleven@<pasteIPHere> ```
 
-You can now copy the previously downloaded OpenRC file to the home directory of the syseleven user.
+You can now edit the OpenRC control file inside the home directory of the syseleven user. Change "demo_user", "demo_project_id" and "demo_password" to your corresponding values.
 Now source the OpenRC file:
 
 ``` source openrc ```
@@ -57,6 +57,11 @@ syseleven@kickstart:~$ openstack server list
 
 ```
 
+If that command works, you are able to work through the rest of this tutorial, so clone it to the working directory:
+
+``` git clone https://github.com/jpeschkeSys11/openstack_workshop.git ```
+
+and move on to "02_network".
 
 
 
