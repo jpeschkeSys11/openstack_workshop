@@ -1,0 +1,56 @@
+heat_template_version: 2016-04-08
+
+description: deploys a dedicated system user and consul installed as service dicovery. 
+
+parameters:
+  example_net:
+    type: string  
+  ssh_keys: 
+    type: comma_delimited_list
+  name: 
+    type: string  
+
+
+resources:
+
+  author_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_param: example_net}
+      security_groups: 
+        - default
+
+  author_server:
+    type: OS::Nova::Server
+    depends_on: author_port
+    properties:
+      user_data_format: RAW
+      user_data: { get_resource: cloud-init-config }
+      image: Ubuntu 16.04 sys11-cloudimg amd64 
+      flavor: m1.micro
+      name: { get_param: name }
+      networks:
+        - port: { get_resource: author_port }
+
+  cloud-init-config:
+   # cloud init demo resource
+   type: OS::Heat::CloudConfig
+   properties:
+     cloud_config:
+       runcmd:
+         - [ /root/install_generic.sh ]
+         - [ /root/install_author.sh ]
+       write_files:
+         -  content: { get_file: scripts/install_generic.sh }
+            permissions: 0700
+            path: /root/install_generic.sh
+         -  content: { get_file: scripts/install_author.sh }
+            permissions: 0700
+            path: /root/install_author.sh
+       users:
+           - name: workshop
+             gecos:  Workshop user
+             lock-passwd: false
+             sudo: ALL=(ALL) NOPASSWD:ALL
+             shell: /bin/bash
+             ssh-authorized-keys: { get_param: ssh_keys }

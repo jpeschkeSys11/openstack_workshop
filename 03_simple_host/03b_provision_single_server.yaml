@@ -11,7 +11,7 @@ parameters:
   type: string
   default: caf8de33-1059-4473-a2c1-2a62d12294fa 
  ssh_keys:
-  type: string
+  type: comma_delimited_list
 
             
 resources:
