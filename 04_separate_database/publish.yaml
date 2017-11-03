@@ -51,10 +51,14 @@ resources:
      cloud_config:
        runcmd:
          - [ /root/install_generic.sh ]
+         - [ /root/install_magnolia.sh ]
        write_files:
          -  content: { get_file: scripts/install_generic.sh }
             permissions: 0700
             path: /root/install_generic.sh
+         -  content: { get_file: scripts/install_magnolia.sh }
+            permissions: 0700
+            path: /root/install_magnolia.sh
        users:
            - name: workshop
              gecos:  Workshop user
