@@ -1,0 +1,57 @@
+heat_template_version: 2016-04-08
+#
+# you can deploy this template using the following command:
+# 'openstack stack create -t 02b_routed_network.yaml <stack_name>'
+# 
+
+description: deploy a network and a subnet plus a router to connect them both. 
+
+parameters:
+ public_network_id:
+  type: string
+  default: caf8de33-1059-4473-a2c1-2a62d12294fa 
+            
+resources:
+  example_net:
+    type: OS::Neutron::Net
+    properties: 
+      name: management network
+
+  example_subnet:
+    depends_on: example_net
+    type: OS::Neutron::Subnet
+    properties:
+      name: management subnet
+      dns_nameservers:
+        - 8.8.8.8
+        - 8.8.4.4
+      network: {get_resource: example_net}
+      ip_version: 4
+      cidr: 10.0.0.0/8
+      allocation_pools:
+      - {start: 10.0.0.10, end: 10.255.255.250}
+
+  example_router:
+    type: OS::Neutron::Router
+    depends_on: example_subnet
+    properties:
+      external_gateway_info: {"network": { get_param: public_network_id }}
+      name: example network router
+
+  example_subnet_connect:
+    type: OS::Neutron::RouterInterface
+    depends_on: example_router
+    properties:
+      router: { get_resource: example_router }
+      subnet: { get_resource: example_subnet }
+
+  example_security_group:
+    type: OS::Neutron::SecurityGroup
+    depends_on: example_subnet_connect
+    properties:
+      description: Open SSH and ICMP traffic.
+      name: example security group
+      rules: 
+	- {remote_ip_prefix: 0.0.0.0/0, protocol: tcp, port_range_min: 22, port_range_max: 22}
+        - {remote_ip_prefix: 0.0.0.0/0, protocol: icmp}
+
