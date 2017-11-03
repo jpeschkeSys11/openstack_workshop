@@ -15,12 +15,12 @@ resources:
   example_net:
     type: OS::Neutron::Net
     properties: 
-      name: management network
+      name: example network
 
   example_subnet:
     type: OS::Neutron::Subnet
     properties:
-      name: management subnet
+      name: example subnet
       dns_nameservers:
         - 8.8.8.8
         - 8.8.4.4
@@ -42,10 +42,4 @@ resources:
     properties:
       router: { get_resource: example_router }
       subnet: { get_resource: example_subnet }
-
-  example_node_port:
-    type: OS::Neutron::Port
-    properties:
-      network: { get_resource: example_net}
-      security_groups: [{ get_resource: server_security_group }]
 

@@ -1,7 +1,7 @@
 heat_template_version: 2016-04-08
 #
 # you can deploy this template using the following command:
-# 'openstack stack create -t 02_network/02a_network_environment.yaml network_only_example'
+# 'openstack stack create -t 02a_network_environment.yaml network_only_example'
 # 
 
 description: Deploys a simple network topology. 
@@ -10,12 +10,12 @@ resources:
   example_net:
     type: OS::Neutron::Net
     properties: 
-      name: management network
+      name: example network
 
   example_subnet:
     type: OS::Neutron::Subnet
     properties:
-      name: management subnet
+      name: example subnet
       dns_nameservers:
         - 8.8.8.8
         - 8.8.4.4
