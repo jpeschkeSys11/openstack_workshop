@@ -1,22 +1,20 @@
 # openstack workshop
 
-A beginners guide to OpenStack usage (from a users perspective).
+A beginners guide to OpenStack API using HOT-templates
 
 
 Content:
 
-01_preflight (api, openrc, kickstart)
+01_preflight
 
 02_network
 
-03_security
+03_simple_host
 
-04_simple_host
+04_separate_database
 
-05_separate_database - volumes
+05_object_storage
 
-05a_object_storage
+06_cloud_init
 
-06_cloud_init / publish - author
-
-07_scaleout - multiple publisher, lb
+07_scaleout
