@@ -15,6 +15,4 @@ Content:
 
 05_object_storage
 
-06_cloud_init
-
-07_scaleout
+06_scaleout

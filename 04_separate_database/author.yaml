@@ -20,6 +20,14 @@ resources:
       security_groups: 
         - default
 
+
+  author_volume:
+   type: OS::Cinder::Volume
+   properties:
+     description: test volume 
+     name: test volume
+     size: 100 
+
   author_server:
     type: OS::Nova::Server
     depends_on: author_port
@@ -31,6 +39,13 @@ resources:
       name: { get_param: name }
       networks:
         - port: { get_resource: author_port }
+
+  author_volume_attach:
+    depends_on: [ author_server, author_volume ]
+    type: OS::Cinder::VolumeAttachment
+    properties:
+      instance_uuid: { get_resource: author_server }
+      volume_id: { get_resource: author_volume }
 
   cloud-init-config:
    # cloud init demo resource
@@ -58,3 +73,10 @@ resources:
              sudo: ALL=(ALL) NOPASSWD:ALL
              shell: /bin/bash
              ssh-authorized-keys: { get_param: ssh_keys }
+       fs_setup:
+           - device: /dev/vdb
+             partition: none
+             label: database_volume
+             filesystem: ext4
+       mounts:
+           - [ "LABEL=database_volume", "/var/lib/mysql" ]
