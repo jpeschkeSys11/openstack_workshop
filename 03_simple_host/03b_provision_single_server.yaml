@@ -22,6 +22,7 @@ resources:
 
   example_subnet:
     type: OS::Neutron::Subnet
+    depends_on: example_net
     properties:
       name: example subnet
       dns_nameservers:
@@ -41,7 +42,7 @@ resources:
 
   example_subnet_connect:
     type: OS::Neutron::RouterInterface
-    depends_on: example_subnet
+    depends_on: [ example_router, example_subnet ]
     properties:
       router: { get_resource: example_router }
       subnet: { get_resource: example_subnet }
@@ -58,7 +59,7 @@ resources:
 
   example_port:
     type: OS::Neutron::Port
-    depends_on: example_security_group
+    depends_on: [ example_security_group, example_net ]
     properties:
       network: { get_resource: example_net}
       security_groups: [{ get_resource: example_security_group }]

@@ -33,7 +33,7 @@ Fill in the desired name for your stack (we will use the name "workstation" duri
 
 You can now navigate to "Compute" --> "Overview" and see, that a newly created VM has spawned. Klick on the name of the machine and copy the public ip address to be able to login there via SSH
 
-``` ssh syseleven@<pasteIPHere> ```
+``` ssh -A syseleven@<pasteIPHere> ``` or ``` ssh -i /path/to/private/ssh/key syseleven@<pasteIPHere> ``` 
 
 You can now edit the OpenRC control file inside the home directory of the syseleven user. Change "demo_user", "demo_project_id" and "demo_password" to your corresponding values.
 Now source the OpenRC file:

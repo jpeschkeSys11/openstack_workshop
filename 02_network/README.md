@@ -7,7 +7,6 @@ We will cover four topics now:
 3. creating security groups to allow traffic to access virtual machines inside your network topology.
 4. Deploy virtual ports and connect security groups to them.
 
-
 ### Network and Subnet
 
 Have a look at the HOT template "02_network_environment.yaml" 
@@ -43,4 +42,3 @@ You can also see that we introduced dependencies. Dependencies are necessary to 
 The last example (02d_network_with_port_and_ip.yaml) shows an example that creates a network port and a floating ip object. The security group gets assigned to the network port. The floating ip also gets assigned to the network port. 
 These are  the two last missing pieces to deploy a "ready to use" network topology where you can spawn virtual machines in and have a working but access controlled network layer.
 
- 

@@ -14,6 +14,7 @@ resources:
 
   example_subnet:
     type: OS::Neutron::Subnet
+    depends_on: example_net
     properties:
       name: example subnet
       dns_nameservers:

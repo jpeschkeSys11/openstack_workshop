@@ -32,5 +32,3 @@ openstack server ssh -l workshop exampleserver
 
 
 ```
-
-
