@@ -2,17 +2,26 @@ heat_template_version: 2016-04-08
 #
 # you can deploy this template using the following command:
 # 'openstack stack create -t 04a_minimal_cluster.yaml -e 04a_minimal_cluster-env.yaml <stack_name>'
+#
+# After successful stack creation you can login with 
+# 'openstack server ssh --option "ForwardAgent=yes" -l workshop web0'
+# From there you can jump to any of your nodes. An example:
+# e.g. 'ssh <IP address of db0>'
 # 
 
 description: deploys a minimal cluster with consul as service discovery system.
 
 parameters:
- public_network_id:
-  type: string
-  default: caf8de33-1059-4473-a2c1-2a62d12294fa 
- ssh_keys:
-  type: comma_delimited_list
-
+  public_network_id:
+    type: string
+  ssh_keys:
+    type: comma_delimited_list
+  image:
+    type: string
+  flavor_web:
+    type: string
+  flavor_db:
+    type: string
             
 resources:
   example_net:
@@ -22,6 +31,7 @@ resources:
 
   example_subnet:
     type: OS::Neutron::Subnet
+    depends_on: example_net
     properties:
       name: example subnet
       dns_nameservers:
@@ -41,16 +51,16 @@ resources:
 
   example_subnet_connect:
     type: OS::Neutron::RouterInterface
-    depends_on: example_subnet
+    depends_on: [ example_router, example_subnet ]
     properties:
       router: { get_resource: example_router }
       subnet: { get_resource: example_subnet }
 
-  publish_security_group:
+  web_security_group:
     type: OS::Neutron::SecurityGroup
     depends_on: example_subnet_connect
     properties:
-      description: Security group for our magnolia frontend server.
+      description: Security group for our frontend webserver.
       name: publish security group
       rules: 
         - {remote_ip_prefix: 0.0.0.0/0, protocol: tcp, port_range_min: 22, port_range_max: 22}
@@ -59,28 +69,43 @@ resources:
         - {remote_ip_prefix: 0.0.0.0/0, protocol: tcp, port_range_min: 8080, port_range_max: 8080}
         - {remote_ip_prefix: 0.0.0.0/0, protocol: icmp}
 
-  publish_server_group:
+  db_security_group:
+    type: OS::Neutron::SecurityGroup
+    depends_on: example_subnet_connect
+    properties:
+      description: Security group for our db server.
+      name: publish security group
+      rules: 
+        - {remote_ip_prefix: 0.0.0.0/0, protocol: tcp, port_range_min: 22, port_range_max: 22}
+        - {remote_ip_prefix: 0.0.0.0/0, protocol: icmp}
+
+  web_server_group:
     type: OS::Heat::ResourceGroup
-    depends_on: publish_security_group
+    depends_on: [ example_net, web_security_group ]
     properties:
       count: 1 
       resource_def: 
-        type: publish.yaml
+        type: web.yaml
         properties:
-          name: publish%index%
+          name: web%index%
           example_net: { get_resource: example_net }
           public_network_id: { get_param: public_network_id }
+          image: { get_param: image }
+          flavor: { get_param: flavor_web }
           ssh_keys: { get_param: ssh_keys }
-          security_group: { get_resource: publish_security_group }
+          security_group: { get_resource: web_security_group }
 
-  author_server_group:
+  db_server_group:
     type: OS::Heat::ResourceGroup
-    depends_on: example_subnet_connect 
+    depends_on: [ example_net, db_security_group ]
     properties:
       count: 1 
       resource_def: 
-        type: author.yaml
+        type: db.yaml
         properties:
-          name: author%index%
+          name: db%index%
           example_net: { get_resource: example_net }
+          image: { get_param: image }
+          flavor: { get_param: flavor_db }
           ssh_keys: { get_param: ssh_keys }
+          security_group: { get_resource: db_security_group }
