@@ -13,12 +13,31 @@ In this example we use consul for that purpose.
 
 ### Demilitarized zone
 
-For the first time we create a virtual machine that is not reachable from the outside. For that reason we need to enable AgentForwarding to be able to jump from one host ("publish0") to the other ("author0").
+First we need the internal IP of the "db0" node
+```
+$ openstack server list
++--------------------------------------+-----------+--------+------------------------------------------+-----------------------------------+-----------+
+| ID                                   | Name      | Status | Networks                                 | Image                             | Flavor    |
++--------------------------------------+-----------+--------+------------------------------------------+-----------------------------------+-----------+
+| c69945e1-52d3-4e32-8e9b-eac678fa7571 | web0      | ACTIVE | example network=10.0.0.11, 185.56.131.48 | Ubuntu 16.04 sys11-cloudimg amd64 | m1.small  |
+| db3de9f0-1098-457f-b141-1351a1da33c8 | db0       | ACTIVE | example network=10.0.0.10                | Ubuntu 16.04 sys11-cloudimg amd64 | m1.medium |
++--------------------------------------+-----------+--------+------------------------------------------+-----------------------------------+-----------+
 
 ```
 
-openstack server ssh publish0 -l workshop --option "ForwardAgent=yes"
+For the first time we create a virtual machine that is not reachable from the outside. For that reason we need to enable AgentForwarding to be able to jump from one host ("web0") to the other ("db0").
 
+```
+$ openstack server ssh web0 -l workshop --option "ForwardAgent=yes"
+
+```
+
+From there you can jump to the ("db0") node.
+```
+# $ ssh < IP address of db0 >
+# e.g.
+#
+$ ssh 10.0.0.10
 
 ```
 
