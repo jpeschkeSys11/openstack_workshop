@@ -1,6 +1,6 @@
 heat_template_version: 2016-04-08
 
-description: deploys a dedicated system user and consul installed as service dicovery. 
+description: deploys a dedicated system user and mysql as database server
 
 parameters:
   example_net:

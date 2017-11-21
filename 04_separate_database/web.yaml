@@ -1,6 +1,6 @@
 heat_template_version: 2016-04-08
 
-description: deploys a vm with public ip access, a dedicated system user and consul installed as service dicovery. 
+description: deploys a vm with public ip access, a dedicated system user apache2 as webserver
 
 parameters:
   example_net:
