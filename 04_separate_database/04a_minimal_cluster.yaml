@@ -12,7 +12,7 @@ heat_template_version: 2016-04-08
 description: deploys a minimal cluster with consul as service discovery system.
 
 parameters:
-  public_network_id:
+  public_network:
     type: string
   ssh_keys:
     type: comma_delimited_list
@@ -46,7 +46,7 @@ resources:
   example_router:
     type: OS::Neutron::Router
     properties:
-      external_gateway_info: {"network": { get_param: public_network_id }}
+      external_gateway_info: {"network": { get_param: public_network }}
       name: example network router
 
   example_subnet_connect:
@@ -89,7 +89,7 @@ resources:
         properties:
           name: web%index%
           example_net: { get_resource: example_net }
-          public_network_id: { get_param: public_network_id }
+          public_network: { get_param: public_network }
           image: { get_param: image }
           flavor: { get_param: flavor_web }
           ssh_keys: { get_param: ssh_keys }
