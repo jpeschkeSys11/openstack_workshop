@@ -4,9 +4,11 @@
 # some generic stuff that is the same on any cluster member
 
 # wait for a valid network configuration
+echo "# Waiting for a valid network configuration"
 until ping -c 1 syseleven.de; do sleep 5; done
 
 # install necessary services
+echo "# Installing dependencies"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" composer pwgen haveged unzip wget jq git apache2 libapache2-mod-php php7.0 php7.0-mysql php7.0-curl php7.0-intl php7.0-mbstring php7.0-xml php7.0-gd php7.0-zip 

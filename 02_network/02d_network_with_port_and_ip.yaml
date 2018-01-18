@@ -7,9 +7,9 @@ heat_template_version: 2016-04-08
 description: deploys a network environment with a secured network port and a public floating ip. 
 
 parameters:
- public_network_id:
+ public_network:
   type: string
-  default: caf8de33-1059-4473-a2c1-2a62d12294fa 
+  default: ext_net
             
 resources:
   example_net:
@@ -34,7 +34,7 @@ resources:
   example_router:
     type: OS::Neutron::Router
     properties:
-      external_gateway_info: {"network": { get_param: public_network_id }}
+      external_gateway_info: {"network": { get_param: public_network }}
       name: example network router
 
   example_subnet_connect:
@@ -65,6 +65,6 @@ resources:
     type: OS::Neutron::FloatingIP
     depends_on: example_port
     properties:
-      floating_network: { get_param: public_network_id }
+      floating_network: { get_param: public_network }
       port_id: { get_resource: example_port }
 

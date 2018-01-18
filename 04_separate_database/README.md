@@ -29,7 +29,6 @@ For the first time we create a virtual machine that is not reachable from the ou
 
 ```
 $ openstack server ssh web0 -l workshop --option "ForwardAgent=yes"
-
 ```
 
 From there you can jump to the ("db0") node.
@@ -38,7 +37,6 @@ From there you can jump to the ("db0") node.
 # e.g.
 #
 $ ssh 10.0.0.10
-
 ```
 
 
