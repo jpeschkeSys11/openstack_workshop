@@ -4,9 +4,11 @@
 # some generic stuff that is the same on any cluster member
 
 # wait for a valid network configuration
+echo "# Waiting for a valid network configuration"
 until ping -c 1 syseleven.de; do sleep 5; done
 
 # install necessary services
+echo "# Installing dependencies"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" pwgen haveged unzip wget jq git mysql-server

@@ -12,14 +12,14 @@ We will cover four topics now:
 Have a look at the HOT template "02_network_environment.yaml" 
 You will notice different sections inside this YAML file:
 
-``` heat_template_version: ```
+```heat_template_version:```
 This section declares, which version of the "language" HOT you are talking.
 
-``` description: ```
+```description:```
 This section is an optional description of what this template does
 
 
-``` resources: ```
+```resources:```
 The next section is the most important one, because it actually creates something inside the OpenStack environment.
 You can see here that we create a network object and a subnet object. A network in this context serves as a container to deploy several subnets in. Also a network is needed to assign floating ip obejcts. 
 The subnet is needed for any private ips. It also controls the DHCP behaviour in your networking environment.
@@ -28,14 +28,14 @@ The subnet is needed for any private ips. It also controls the DHCP behaviour in
 ### Routing
 
 To deploy a routed network you can use the example 02b_routed_network.yaml. 
-You can see a new section in this template: ``` parameters: ```. In this example only one parameter is used to keep the public network id as a variable.
+You can see a new section in this template: ```parameters:```. In this example only one parameter is used to keep the public network id as a variable.
 
 You can in this template that we build two additional resources: a router and th object, that connects the router to the private subnet we build earlier.
 
 ### Security Groups
 
 The security group example (02c_network_and_security-groups.yaml) builds on top of the previous one. It adds a security group with two rules: One to allow SSH traffic, one that allows ICMP traffic.
-You can also see that we introduced dependencies. Dependencies are necessary to control what resource gets build first. It also controls the reverse build procesdure (``` openstack stack delete ```). To delete resource in a controlled manner you need these dependencies.
+You can also see that we introduced dependencies. Dependencies are necessary to control what resource gets build first. It also controls the reverse build procesdure (```openstack stack delete```). To delete resource in a controlled manner you need these dependencies.
 
 ### Creating network ports
 

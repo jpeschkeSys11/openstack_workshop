@@ -4,6 +4,7 @@
 # install some useful stuff
 
 # wait for a valid network configuration
+echo "# Waiting for a valid network configuration"
 until ping -c 1 syseleven.de; do sleep 5; done
 
 export DEBIAN_FRONTEND=noninteractive
